@@ -1,0 +1,125 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "text": "What is the main building block of Angular applications?",
+      "options": ["Components", "Modules", "Services", "Templates"],
+      "correctAnswer": 0
+    },
+    {
+      "id": 2,
+      "text": "Which decorator is used to define a component in Angular?",
+      "options": ["@NgComponent", "@Component", "@AngularComponent", "@ComponentDecorator"],
+      "correctAnswer": 1
+    },
+    {
+      "id": 3,
+      "text": "What is the purpose of NgModule?",
+      "options": ["To handle HTTP requests", "To define routes", "To organize components", "To style components"],
+      "correctAnswer": 2
+    },
+    {
+      "id": 4,
+      "text": "Which lifecycle hook runs when Angular initializes a component?",
+      "options": ["ngStart", "ngBegin", "ngOnInit", "ngCreate"],
+      "correctAnswer": 2
+    },
+    {
+      "id": 5,
+      "text": "What is dependency injection in Angular?",
+      "options": ["Creating components", "Managing state", "Handling routing", "Providing dependencies"],
+      "correctAnswer": 3
+    },
+    {
+      "id": 6,
+      "text": "What is the purpose of Angular CLI?",
+      "options": ["Project management", "Database connection", "Server deployment", "API testing"],
+      "correctAnswer": 0
+    },
+    {
+      "id": 7,
+      "text": "Which directive is used for two-way data binding in Angular?",
+      "options": ["[(ngModel)]", "*ngFor", "*ngIf", "[ngClass]"],
+      "correctAnswer": 0
+    },
+    {
+      "id": 8,
+      "text": "What is the purpose of Angular Router?",
+      "options": ["State management", "Navigation", "Data fetching", "Component styling"],
+      "correctAnswer": 1
+    },
+    {
+      "id": 9,
+      "text": "Which pipe is used for formatting dates in Angular?",
+      "options": ["datePipe", "formatDate", "dateFormat", "date"],
+      "correctAnswer": 3
+    },
+    {
+      "id": 10,
+      "text": "What is the purpose of Angular Forms?",
+      "options": ["Styling", "Routing", "User input handling", "Animation"],
+      "correctAnswer": 2
+    },
+    {
+      "id": 11,
+      "text": "Which module provides HTTP client functionality in Angular?",
+      "options": ["HttpModule", "HttpClientModule", "AngularHttpModule", "NetworkModule"],
+      "correctAnswer": 1
+    },
+    {
+      "id": 12,
+      "text": "What is the purpose of Angular animations?",
+      "options": ["Data binding", "State transitions", "Routing", "Dependency injection"],
+      "correctAnswer": 1
+    },
+    {
+      "id": 13,
+      "text": "Which decorator is used to define a service in Angular?",
+      "options": ["@Service", "@Injectable", "@Provide", "@NgService"],
+      "correctAnswer": 1
+    },
+    {
+      "id": 14,
+      "text": "What is the purpose of Angular directives?",
+      "options": ["Routing", "DOM manipulation", "State management", "HTTP requests"],
+      "correctAnswer": 1
+    },
+    {
+      "id": 15,
+      "text": "Which command is used to generate a new component using Angular CLI?",
+      "options": ["ng new component", "ng generate component", "ng create component", "ng add component"],
+      "correctAnswer": 1
+    },
+    {
+      "id": 16,
+      "text": "What is the purpose of Angular guards?",
+      "options": ["Authentication", "Data fetching", "Styling", "Dependency injection"],
+      "correctAnswer": 0
+    },
+    {
+      "id": 17,
+      "text": "Which file contains the root component of an Angular application?",
+      "options": ["main.ts", "index.html", "app.component.ts", "angular.json"],
+      "correctAnswer": 2
+    },
+    {
+      "id": 18,
+      "text": "What is the purpose of Angular services?",
+      "options": ["Routing", "Data sharing", "DOM manipulation", "Component definition"],
+      "correctAnswer": 1
+    },
+    {
+      "id": 19,
+      "text": "Which decorator is used to define a pipe in Angular?",
+      "options": ["@Pipe", "@NgPipe", "@AngularPipe", "@CustomPipe"],
+      "correctAnswer": 0
+    },
+    {
+      "id": 20,
+      "text": "What is the purpose of Angular interceptors?",
+      "options": ["Routing", "HTTP request/response handling", "State management", "View manipulation"],
+      "correctAnswer": 1
+    }
+  ]
+}
+
