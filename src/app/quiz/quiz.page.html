@@ -9,81 +9,69 @@
           <p class="text-gray-600">Test your Angular knowledge</p>
         </div>
 
-        @if (!quizCompleted) {
-          <div class="p-6">
-            <!-- Current Question -->
-            <div class="bg-gray-50 rounded-lg p-6 mb-6">
-              <div class="flex justify-between items-start mb-4">
-                <h2 class="text-xl font-semibold">
-                  <span class="text-gray-600 mr-2">Question {{ currentQuestion + 1 }} of {{ questions.length }}:</span>
-                  {{ questions[currentQuestion].text }}
-                </h2>
-                <button 
-                  (click)="toggleReview(currentQuestion)"
-                  class="ml-4 px-3 py-1 text-sm rounded-full transition-colors"
-                  [class.bg-yellow-400]="questions[currentQuestion].isMarkedForReview"
-                  [class.text-white]="questions[currentQuestion].isMarkedForReview"
-                  [class.bg-gray-100]="!questions[currentQuestion].isMarkedForReview">
-                  {{ questions[currentQuestion].isMarkedForReview ? 'Marked for Review' : 'Mark for Review' }}
-                </button>
-              </div>
-              <div class="space-y-3">
-                @for (option of questions[currentQuestion].options; track option; let i = $index) {
-                  <div 
-                    (click)="selectAnswer(currentQuestion, i)"
-                    class="flex items-center p-4 bg-white rounded-lg border cursor-pointer hover:bg-blue-50 transition-colors"
-                    [class.border-blue-500]="questions[currentQuestion].selectedAnswer === i"
-                    [class.bg-blue-50]="questions[currentQuestion].selectedAnswer === i">
-                    <input 
-                      type="radio" 
-                      [id]="'option' + i" 
-                      [name]="'question' + currentQuestion" 
-                      [value]="i" 
-                      [checked]="questions[currentQuestion].selectedAnswer === i"
-                      class="h-4 w-4 text-blue-600 focus:ring-blue-500">
-                    <label [for]="'option' + i" class="ml-3 cursor-pointer">{{ option }}</label>
-                  </div>
-                }
-              </div>
-            </div>
-
-            <!-- Navigation -->
-            <div class="flex justify-between items-center mb-6">
+        <div class="p-6">
+          <!-- Current Question -->
+          <div class="bg-gray-50 rounded-lg p-6 mb-6">
+            <div class="flex justify-between items-start mb-4">
+              <h2 class="text-xl font-semibold">
+                <span class="text-gray-600 mr-2">Question {{ currentQuestion + 1 }} of {{ questions.length }}:</span>
+                {{ questions[currentQuestion].text }}
+              </h2>
               <button 
-                (click)="previousQuestion()" 
-                [disabled]="currentQuestion === 0"
-                class="px-4 py-2 bg-blue-500 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-600 transition-colors">
-                Previous
-              </button>
-              <button 
-                (click)="nextQuestion()" 
-                [disabled]="currentQuestion === questions.length - 1"
-                class="px-4 py-2 bg-blue-500 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-600 transition-colors">
-                Next
+                (click)="toggleReview(currentQuestion)"
+                class="ml-4 px-3 py-1 text-sm rounded-full transition-colors"
+                [class.bg-yellow-400]="questions[currentQuestion].isMarkedForReview"
+                [class.text-white]="questions[currentQuestion].isMarkedForReview"
+                [class.bg-gray-100]="!questions[currentQuestion].isMarkedForReview">
+                {{ questions[currentQuestion].isMarkedForReview ? 'Marked for Review' : 'Mark for Review' }}
               </button>
             </div>
-
-            <!-- Submit Button -->
-            <div class="flex justify-center">
-              <button 
-                (click)="submitQuiz()" 
-                [disabled]="!allQuestionsAnswered"
-                class="px-6 py-3 bg-green-500 text-white rounded-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-green-600 transition-colors">
-                Submit Quiz
-              </button>
+            <div class="space-y-3">
+              @for (option of questions[currentQuestion].options; track option; let i = $index) {
+                <div 
+                  (click)="selectAnswer(currentQuestion, i)"
+                  class="flex items-center p-4 bg-white rounded-lg border cursor-pointer hover:bg-blue-50 transition-colors"
+                  [class.border-blue-500]="questions[currentQuestion].selectedAnswer === i"
+                  [class.bg-blue-50]="questions[currentQuestion].selectedAnswer === i">
+                  <input 
+                    type="radio" 
+                    [id]="'option' + i" 
+                    [name]="'question' + currentQuestion" 
+                    [value]="i" 
+                    [checked]="questions[currentQuestion].selectedAnswer === i"
+                    class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                  <label [for]="'option' + i" class="ml-3 cursor-pointer">{{ option }}</label>
+                </div>
+              }
             </div>
           </div>
-        } @else {
-          <div class="p-6">
-            <div class="bg-green-50 border border-green-200 rounded-lg p-6 text-center">
-              <h2 class="text-2xl font-bold text-green-800 mb-2">Quiz Completed!</h2>
-              <p class="text-xl text-green-700">Your score: {{ quizScore }} / {{ questions.length }}</p>
-              <p class="text-green-600 mt-2">
-                Percentage: {{ (quizScore / questions.length * 100).toFixed(1) }}%
-              </p>
-            </div>
+
+          <!-- Navigation -->
+          <div class="flex justify-between items-center mb-6">
+            <button 
+              (click)="previousQuestion()" 
+              [disabled]="currentQuestion === 0"
+              class="px-4 py-2 bg-blue-500 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-600 transition-colors">
+              Previous
+            </button>
+            <button 
+              (click)="nextQuestion()" 
+              [disabled]="currentQuestion === questions.length - 1"
+              class="px-4 py-2 bg-blue-500 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-600 transition-colors">
+              Next
+            </button>
           </div>
-        }
+
+          <!-- Submit Button -->
+          <div class="flex justify-center">
+            <button 
+              (click)="submitQuiz()" 
+              [disabled]="!allQuestionsAnswered"
+              class="px-6 py-3 bg-blue-500 text-white rounded-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-600 transition-colors">
+              Submit Quiz
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -96,7 +84,7 @@
             <button 
               (click)="goToQuestion(i)"
               class="w-10 h-10 rounded-lg text-sm font-medium transition-colors flex items-center justify-center"
-              [class.bg-emerald-500]="getQuestionStatus(i) === 'not-visited'"
+              [class.bg-gray-400]="getQuestionStatus(i) === 'not-visited'"
               [class.text-white]="getQuestionStatus(i) === 'not-visited'"
               [class.bg-blue-500]="getQuestionStatus(i) === 'current'"
               [class.text-white]="getQuestionStatus(i) === 'current'"
@@ -111,7 +99,7 @@
 
         <div class="mt-6 space-y-2">
           <div class="flex items-center gap-2">
-            <div class="w-4 h-4 bg-emerald-500 rounded"></div>
+            <div class="w-4 h-4 bg-gray-400 rounded"></div>
             <span class="text-sm">Not Visited</span>
           </div>
           <div class="flex items-center gap-2">
@@ -134,5 +122,74 @@
       </div>
     </div>
   </div>
+
+  <!-- Quiz Summary Modal -->
+  @if (showSummary) {
+    <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center">
+      <div class="relative p-8 bg-white w-full max-w-lg m-4 rounded-xl shadow-lg">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">Before submission Module / Quiz submission</h2>
+        
+        <!-- Progress Bar -->
+        <div class="mb-8">
+          <div class="relative pt-1">
+            <div class="flex mb-2 items-center justify-between">
+              <div>
+                <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blue-600 bg-blue-200">
+                  Progress
+                </span>
+              </div>
+              <div class="text-right">
+                <span class="text-xs font-semibold inline-block text-blue-600">
+                  {{ summary.totalQuestions }} Questions
+                </span>
+              </div>
+            </div>
+            <div class="overflow-hidden h-6 mb-4 text-xs flex rounded-full bg-gray-200">
+              <div [style.width.%]="getPercentage(summary.attempted)"
+                   class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500 transition-all duration-1000 ease-in-out">
+                {{ summary.attempted }}
+              </div>
+              <div [style.width.%]="getPercentage(summary.markedForReview)"
+                   class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-yellow-500 transition-all duration-1000 ease-in-out">
+                {{ summary.markedForReview }}
+              </div>
+              <div [style.width.%]="getPercentage(summary.notAttempted)"
+                   class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gray-400 transition-all duration-1000 ease-in-out">
+                {{ summary.notAttempted }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Summary Details -->
+        <div class="grid grid-cols-3 gap-4 mb-8">
+          <div class="bg-blue-100 p-4 rounded-lg text-center">
+            <p class="text-blue-800 font-semibold mb-1">Attempted</p>
+            <p class="text-2xl font-bold text-blue-600">{{ summary.attempted }}</p>
+          </div>
+          <div class="bg-yellow-100 p-4 rounded-lg text-center">
+            <p class="text-yellow-800 font-semibold mb-1">Marked for Review</p>
+            <p class="text-2xl font-bold text-yellow-600">{{ summary.markedForReview }}</p>
+          </div>
+          <div class="bg-gray-100 p-4 rounded-lg text-center">
+            <p class="text-gray-800 font-semibold mb-1">Not Attempted</p>
+            <p class="text-2xl font-bold text-gray-600">{{ summary.notAttempted }}</p>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex justify-between gap-4">
+          <button (click)="reviewMarkedQuestions()" 
+                  class="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-all duration-300 ease-in-out">
+            Review Marked Questions
+          </button>
+          <button (click)="showSummary = false"
+                  class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-all duration-300 ease-in-out">
+            Continue Quiz
+          </button>
+        </div>
+      </div>
+    </div>
+  }
 </div>
 

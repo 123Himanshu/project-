@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 interface Question {
   id: number;
@@ -12,17 +13,40 @@ interface Question {
   isVisited: boolean;
 }
 
+interface QuizSummary {
+  totalQuestions: number;
+  attempted: number;
+  notAttempted: number;
+  markedForReview: number;
+}
+
 @Component({
   selector: 'app-quiz',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './quiz.page.html',
-  styleUrls: ['./quiz.page.css']
+  styleUrls: ['./quiz.page.css'],
+  animations: [
+    trigger('fadeInOut', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(20px)' }),
+        animate('500ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
+      ]),
+      transition(':leave', [
+        animate('500ms ease-in', style({ opacity: 0, transform: 'translateY(20px)' }))
+      ])
+    ])
+  ]
 })
 export class QuizPage {
   currentQuestion = 0;
-  quizCompleted = false;
-  quizScore = 0;
+  showSummary = false;
+  summary: QuizSummary = {
+    totalQuestions: 20,
+    attempted: 0,
+    notAttempted: 20,
+    markedForReview: 0
+  };
 
   // Base questions that are hardcoded
   private baseQuestions: Question[] = [
@@ -44,7 +68,7 @@ export class QuizPage {
     },
     {
       id: 3,
-      text: 'What is the purpose of NgModule ?',
+      text: 'What is the purpose of NgModule?',
       options: ['To handle HTTP requests', 'To define routes', 'To organize components', 'To style components'],
       correctAnswer: 2,
       isMarkedForReview: false,
@@ -89,6 +113,7 @@ export class QuizPage {
     this.questions[this.currentQuestion].isVisited = true;
     this.currentQuestion = index;
     this.questions[index].isVisited = true;
+    this.updateSummary();
   }
 
   nextQuestion() {
@@ -96,6 +121,7 @@ export class QuizPage {
       this.questions[this.currentQuestion].isVisited = true;
       this.currentQuestion++;
       this.questions[this.currentQuestion].isVisited = true;
+      this.updateSummary();
     }
   }
 
@@ -104,22 +130,37 @@ export class QuizPage {
       this.questions[this.currentQuestion].isVisited = true;
       this.currentQuestion--;
       this.questions[this.currentQuestion].isVisited = true;
+      this.updateSummary();
     }
   }
 
   selectAnswer(questionIndex: number, optionIndex: number) {
     this.questions[questionIndex].selectedAnswer = optionIndex;
+    this.updateSummary();
   }
 
   toggleReview(questionIndex: number) {
     this.questions[questionIndex].isMarkedForReview = !this.questions[questionIndex].isMarkedForReview;
+    this.updateSummary();
+  }
+
+  updateSummary() {
+    this.summary.attempted = this.questions.filter(q => q.selectedAnswer !== undefined).length;
+    this.summary.markedForReview = this.questions.filter(q => q.isMarkedForReview).length;
+    this.summary.notAttempted = this.questions.length - this.summary.attempted;
   }
 
   submitQuiz() {
-    this.quizScore = this.questions.reduce((acc, q) => {
-      return acc + (q.selectedAnswer === q.correctAnswer ? 1 : 0);
-    }, 0);
-    this.quizCompleted = true;
+    this.updateSummary();
+    this.showSummary = true;
+  }
+
+  reviewMarkedQuestions() {
+    const firstMarkedQuestion = this.questions.findIndex(q => q.isMarkedForReview);
+    if (firstMarkedQuestion !== -1) {
+      this.currentQuestion = firstMarkedQuestion;
+    }
+    this.showSummary = false;
   }
 
   get allQuestionsAnswered(): boolean {
@@ -133,6 +174,10 @@ export class QuizPage {
     if (question.selectedAnswer !== undefined) return 'answered';
     if (question.isVisited) return 'visited';
     return 'not-visited';
+  }
+
+  getPercentage(value: number): number {
+    return (value / this.summary.totalQuestions) * 100;
   }
 }
 
