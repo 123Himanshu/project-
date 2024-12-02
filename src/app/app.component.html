@@ -1,138 +1,28 @@
-<div class="min-h-screen bg-gray-50">
-  <div class="max-w-7xl mx-auto px-4 py-8 flex gap-6">
-    <!-- Main Content -->
-    <div class="flex-1">
-      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-        <!-- Header -->
-        <div class="bg-white px-6 py-4 border-b">
-          <h1 class="text-2xl font-bold text-gray-900">Angular Quiz</h1>
-          <p class="text-gray-600">Test your Angular knowledge</p>
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { QuizPage } from './quiz/quiz.page';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [CommonModule, QuizPage],
+  template: `
+    <div class="min-h-screen bg-gray-100">
+      <header class="bg-white shadow">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+          <h1 class="text-3xl font-bold text-gray-900">Angular Quiz Application</h1>
         </div>
-
-        @if (!quizCompleted) {
-          <div class="p-6">
-            <!-- Current Question -->
-            <div class="bg-gray-50 rounded-lg p-6 mb-6">
-              <div class="flex justify-between items-start mb-4">
-                <h2 class="text-xl font-semibold">
-                  <span class="text-gray-600 mr-2">Question {{ currentQuestion + 1 }} of {{ questions.length }}:</span>
-                  {{ questions[currentQuestion].text }}
-                </h2>
-                <button 
-                  (click)="toggleReview(currentQuestion)"
-                  class="ml-4 px-3 py-1 text-sm rounded-full transition-colors"
-                  [class.bg-yellow-400]="questions[currentQuestion].isMarkedForReview"
-                  [class.text-white]="questions[currentQuestion].isMarkedForReview"
-                  [class.bg-gray-100]="!questions[currentQuestion].isMarkedForReview">
-                  {{ questions[currentQuestion].isMarkedForReview ? 'Marked for Review' : 'Mark for Review' }}
-                </button>
-              </div>
-              <div class="space-y-3">
-                @for (option of questions[currentQuestion].options; track option; let i = $index) {
-                  <div 
-                    (click)="selectAnswer(currentQuestion, i)"
-                    class="flex items-center p-4 bg-white rounded-lg border cursor-pointer hover:bg-blue-50 transition-colors"
-                    [class.border-blue-500]="questions[currentQuestion].selectedAnswer === i"
-                    [class.bg-blue-50]="questions[currentQuestion].selectedAnswer === i">
-                    <input 
-                      type="radio" 
-                      [id]="'option' + i" 
-                      [name]="'question' + currentQuestion" 
-                      [value]="i" 
-                      [checked]="questions[currentQuestion].selectedAnswer === i"
-                      class="h-4 w-4 text-blue-600 focus:ring-blue-500">
-                    <label [for]="'option' + i" class="ml-3 cursor-pointer">{{ option }}</label>
-                  </div>
-                }
-              </div>
-            </div>
-
-            <!-- Bottom Navigation -->
-            <div class="flex justify-between items-center mb-6">
-              <button 
-                (click)="previousQuestion()" 
-                [disabled]="currentQuestion === 0"
-                class="px-4 py-2 bg-blue-500 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-600 transition-colors">
-                Previous
-              </button>
-              <button 
-                (click)="nextQuestion()" 
-                [disabled]="currentQuestion === questions.length - 1"
-                class="px-4 py-2 bg-blue-500 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-600 transition-colors">
-                Next
-              </button>
-            </div>
-
-            <!-- Submit Button -->
-            <div class="flex justify-center">
-              <button 
-                (click)="submitQuiz()" 
-                [disabled]="!allQuestionsAnswered"
-                class="px-6 py-3 bg-green-500 text-white rounded-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-green-600 transition-colors">
-                Submit Quiz
-              </button>
-            </div>
-          </div>
-        } @else {
-          <div class="p-6">
-            <div class="bg-green-50 border border-green-200 rounded-lg p-6 text-center">
-              <h2 class="text-2xl font-bold text-green-800 mb-2">Quiz Completed!</h2>
-              <p class="text-xl text-green-700">Your score: {{ quizScore }} / {{ questions.length }}</p>
-              <p class="text-green-600 mt-2">
-                Percentage: {{ (quizScore / questions.length * 100).toFixed(1) }}%
-              </p>
-            </div>
-          </div>
-        }
-      </div>
+      </header>
+      <main>
+        <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+          <app-quiz></app-quiz>
+        </div>
+      </main>
     </div>
-
-    <!-- Question Grid Sidebar -->
-    <div class="w-64 flex-shrink-0">
-      <div class="bg-white rounded-xl shadow-lg p-4 sticky top-8">
-        <h2 class="text-lg font-semibold mb-4">Question Navigator</h2>
-        <div class="grid grid-cols-3 gap-2">
-          @for (question of questions; track question; let i = $index) {
-            <button 
-              (click)="goToQuestion(i)"
-              class="w-10 h-10 rounded-lg text-sm font-medium transition-colors flex items-center justify-center"
-              [class.bg-emerald-500]="getQuestionStatus(i) === 'not-visited'"
-              [class.text-white]="getQuestionStatus(i) === 'not-visited'"
-              [class.bg-blue-500]="getQuestionStatus(i) === 'current'"
-              [class.text-white]="getQuestionStatus(i) === 'current'"
-              [class.bg-yellow-400]="getQuestionStatus(i) === 'review'"
-              [class.text-white]="getQuestionStatus(i) === 'review'"
-              [class.bg-gray-200]="getQuestionStatus(i) === 'visited'"
-              [class.bg-green-100]="getQuestionStatus(i) === 'answered'">
-              {{ i + 1 }}
-            </button>
-          }
-        </div>
-
-        <div class="mt-6 space-y-2">
-          <div class="flex items-center gap-2">
-            <div class="w-4 h-4 bg-emerald-500 rounded"></div>
-            <span class="text-sm">Not Visited</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <div class="w-4 h-4 bg-blue-500 rounded"></div>
-            <span class="text-sm">Current Question</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <div class="w-4 h-4 bg-yellow-400 rounded"></div>
-            <span class="text-sm">Marked for Review</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <div class="w-4 h-4 bg-green-100 rounded"></div>
-            <span class="text-sm">Answered</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <div class="w-4 h-4 bg-gray-200 rounded"></div>
-            <span class="text-sm">Visited</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+  `,
+  styles: []
+})
+export class AppComponent {
+  title = 'Angular Quiz Application';
+}
 
